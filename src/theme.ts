@@ -1,4 +1,4 @@
-import { TextStyle } from 'react-native';
+import { Platform, TextStyle } from 'react-native';
 
 const typedRecord = <TValue>() => <T extends Record<PropertyKey, TValue>>(v: T): T => v;
 
@@ -39,6 +39,7 @@ const colors = typedRecord<TextStyle['color']>()({
   primary: '#0366d6',
   offWhite: '#f1f2f3',
   kindaGrey: '#e1e4e8',
+  error: '#d73a4a',
 });
 
 const fontSizes = typedRecord<TextStyle['fontSize']>()({
@@ -47,7 +48,11 @@ const fontSizes = typedRecord<TextStyle['fontSize']>()({
 });
 
 const fonts = typedRecord<TextStyle['fontFamily']>()({
-  main: 'System',
+  main: Platform.select({
+    android: 'Roboto',
+    ios: 'Arial',
+    default: 'System',
+  })
 });
 
 const fontWeights = typedRecord<TextStyle['fontWeight']>()({
