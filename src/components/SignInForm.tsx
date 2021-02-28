@@ -25,7 +25,6 @@ export interface SignInFormValues {
 }
 
 interface Props {
-  //onSubmit: (values: SignInFormValues) => void;
   onSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void
 }
 
@@ -34,7 +33,6 @@ const SignInForm = (props: Props): JSX.Element => {
     <View style={styles.container}>
       <FormikTextInput name="username" placeholder="Username" />
       <FormikTextInput name="password" placeholder="Password" secureTextEntry />
-      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
       <TouchableOpacity activeOpacity={0.5} onPress={props.onSubmit}>
         <Text style={styles.signInButton} fontWeight='bold' fontSize='subheading'>Sign in</Text>
       </TouchableOpacity>
