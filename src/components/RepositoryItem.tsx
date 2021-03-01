@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
-import { Repository } from './types';
+import { Repository } from '../types';
 import Text from './Text';
 import theme from '../theme';
 import Count from './Count';

@@ -1,4 +1,4 @@
-export interface Repository {
+export interface RepositoryFull {
   id: string;
   name: string;
   ownerName: string;
@@ -12,3 +12,9 @@ export interface Repository {
   reviewCount: number;
   ownerAvatarUrl: string;
 }
+
+export type Repository = Omit<RepositoryFull,
+  'name'
+  | 'ownerName'
+  | 'createdAt'
+>;

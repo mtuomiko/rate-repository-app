@@ -1,62 +1,26 @@
-import { useState, useEffect } from 'react';
-import { Platform } from 'react-native';
 
-import { Repository } from '../components/types';
+import { Repository } from '../types';
+import { useQuery } from '@apollo/client';
+import { GET_REPOSITORIES } from '../graphql/queries';
 
 interface RepositoryResponse {
-  pageInfo?: {
-    totalCount: number,
-    hasNextPage: boolean,
-    endCursor: string,
-    startCursor: string,
-  },
-  edges?: Array<{
-    node: Repository,
-    cursor: string,
-  }>
+  repositories: {
+    edges: Array<{
+      node: Repository
+    }>
+  }
 }
 
-const useRepositories = (): {
-  repositories: RepositoryResponse | undefined;
-  loading: boolean;
-  refetch: () => Promise<void>;
-} => {
-  const [repositories, setRepositories] = useState<RepositoryResponse>();
-  const [loading, setLoading] = useState(false);
-
-  // For WSL2 dev environment. Native clients need the real local IP, web 
-  // client can access WSL with its localhost since running on the same 
-  // machine.
-  const apiHost = Platform.select({
-    web: 'localhost',
-    default: '192.168.1.189',
+const useRepositories = () => {
+  const result = useQuery<RepositoryResponse>(GET_REPOSITORIES, {
+    fetchPolicy: 'cache-and-network',
   });
 
-  const apiUrl = `http://${apiHost}:5000/api/repositories`;
-
-  const fetchRepositories = async () => {
-    try {
-      setLoading(true);
-
-      const response = await fetch(apiUrl);
-      if (!response.ok) {
-        throw new Error('Error');
-      }
-      const json: RepositoryResponse = await response.json();
-
-      setLoading(false);
-      setRepositories(json);
-    } catch (e) {
-      console.log(e);
-      setLoading(false);
-    }
+  return {
+    repositories: result.data?.repositories,
+    loading: result.loading,
+    refetch: result.refetch,
   };
-
-  useEffect(() => {
-    fetchRepositories();
-  }, []);
-
-  return { repositories, loading, refetch: fetchRepositories };
 };
 
 export default useRepositories;
