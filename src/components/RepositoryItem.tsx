@@ -8,6 +8,7 @@ import Count from './Count';
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
+    paddingRight: 10,
   },
   upperContainer: {
     flexDirection: 'row',
