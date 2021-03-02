@@ -12,14 +12,14 @@ interface RepositoryResponse {
 }
 
 const useRepositories = () => {
-  const result = useQuery<RepositoryResponse>(GET_REPOSITORIES, {
+  const { data, loading, refetch } = useQuery<RepositoryResponse>(GET_REPOSITORIES, {
     fetchPolicy: 'cache-and-network',
   });
 
   return {
-    repositories: result.data?.repositories,
-    loading: result.loading,
-    refetch: result.refetch,
+    repositories: data?.repositories,
+    loading,
+    refetch,
   };
 };
 

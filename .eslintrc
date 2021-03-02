@@ -1,7 +1,8 @@
 {
   "plugins": [
     "@typescript-eslint",
-    "react"
+    "react",
+    "react-native-globals"
   ],
   "settings": {
     "react": {
@@ -11,12 +12,12 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:react/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "env": {
-    "browser": true
+    "browser": true,
+    "react-native-globals/all": true
   },
   "rules": {
     "react/prop-types": 0,
