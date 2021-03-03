@@ -4,6 +4,10 @@ import Constants from 'expo-constants';
 
 import theme from '../theme';
 import AppBarTab from './AppBarTab';
+import useAuthorizedUser from '../hooks/useAuthorizedUser';
+import { Link } from 'react-router-native';
+import useAuthStorage from '../hooks/useAuthStorage';
+import { useApolloClient } from '@apollo/client';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,11 +18,25 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = (): JSX.Element => {
+  const { authorizedUser } = useAuthorizedUser();
+  const authStorage = useAuthStorage();
+  const client = useApolloClient();
+
+  console.log('user', authorizedUser);
+
+  const signOut = async () => {
+    await authStorage.removeAccessToken();
+    client.resetStore();
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab to='/' name='Repositories' />
-        <AppBarTab to='/signin' name='Sign in' />
+        {authorizedUser
+          ? <AppBarTab name='Sign out' action={signOut} />
+          : <AppBarTab to='/signin' name='Sign in' />
+        }
       </ScrollView>
     </View>
   );
