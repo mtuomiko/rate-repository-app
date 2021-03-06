@@ -46,10 +46,11 @@ const styles = StyleSheet.create({
 
 const RepositoryItem = ({ item }: { item: Repository }): JSX.Element => {
   return (
-    <View style={styles.container}>
+    <View testID='repositoryItem' style={styles.container}>
       <View style={styles.upperContainer}>
         <View>
           <Image
+            testID='repositoryImage'
             style={styles.logo}
             source={{
               uri: item.ownerAvatarUrl,
@@ -57,19 +58,19 @@ const RepositoryItem = ({ item }: { item: Repository }): JSX.Element => {
           />
         </View>
         <View style={styles.infoContainer}>
-          <Text style={styles.infoText} fontWeight='bold' fontSize='subheading'>{item.fullName}</Text>
-          <Text style={styles.infoText}>{item.description}</Text>
+          <Text testID='repositoryFullName' style={styles.infoText} fontWeight='bold' fontSize='subheading'>{item.fullName}</Text>
+          <Text testID='repositoryDescription' style={styles.infoText}>{item.description}</Text>
           <View>
-            <Text style={styles.language} color='offWhite'>{item.language}</Text>
+            <Text testID='repositoryLanguage' style={styles.language} color='offWhite'>{item.language}</Text>
           </View>
 
         </View>
       </View>
       <View style={styles.lowerContainer}>
-        <Count count={item.stargazersCount} name='Stars' />
-        <Count count={item.forksCount} name='Forks' />
-        <Count count={item.reviewCount} name='Reviews' />
-        <Count count={item.ratingAverage} name='Rating' />
+        <Count testID='repositoryStars' count={item.stargazersCount} name='Stars' />
+        <Count testID='repositoryForks' count={item.forksCount} name='Forks' />
+        <Count testID='repositoryReviews' count={item.reviewCount} name='Reviews' />
+        <Count testID='repositoryRating' count={item.ratingAverage} name='Rating' />
       </View>
     </View>
   );

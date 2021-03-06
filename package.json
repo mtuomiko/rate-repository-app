@@ -6,7 +6,20 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "lint": "eslint ./src/**/*.{ts,tsx} App.tsx --no-error-on-unmatched-pattern"
+    "lint": "eslint ./src/**/*.{ts,tsx} App.tsx --no-error-on-unmatched-pattern",
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "transform": {
+      "^.+\\.tsx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*|react-router-native)"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/setupTests.js"
+    ]
   },
   "dependencies": {
     "@apollo/client": "^3.3.11",
@@ -25,6 +38,9 @@
   },
   "devDependencies": {
     "@expo/webpack-config": "^0.12.60",
+    "@testing-library/jest-native": "^4.0.1",
+    "@testing-library/react-native": "^7.2.0",
+    "@types/jest": "^26.0.20",
     "@types/react": "~16.9.41",
     "@types/react-native": "~0.62.13",
     "@types/react-router-native": "^5.1.0",

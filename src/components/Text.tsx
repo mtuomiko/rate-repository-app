@@ -1,5 +1,5 @@
-import React from 'react';
-import { Text as NativeText, StyleSheet, TextStyle } from 'react-native';
+import React, { ReactNode } from 'react';
+import { Text as NativeText, StyleSheet, TextProps } from 'react-native';
 import theme, { Colors, FontSizes, FontWeights } from '../theme';
 
 const styles = StyleSheet.create({
@@ -26,12 +26,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const Text: React.FC<{
+interface Props extends TextProps {
+  children?: ReactNode;
   color?: Colors;
   fontSize?: FontSizes;
   fontWeight?: FontWeights;
-  style?: TextStyle;
-}> = ({ color, fontSize, fontWeight, style, ...props }) => {
+}
+
+const Text = ({ color, fontSize, fontWeight, style, ...props }: Props) => {
   const textStyle = [
     styles.text,
     color === 'textSecondary' && styles.colorTextSecondary,

@@ -1,9 +1,9 @@
 import React from 'react';
 import { FlatList, View, StyleSheet } from 'react-native';
 
-import RepositoryItem from './RepositoryItem';
-import { Repository } from '../types';
-import useRepositories from '../hooks/useRepositories';
+import RepositoryItem from '../RepositoryItem';
+import { Repository } from '../../types';
+import useRepositories from '../../hooks/useRepositories';
 
 const styles = StyleSheet.create({
   separator: {
@@ -14,9 +14,13 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-const RepositoryList = (): JSX.Element => {
-  const { repositories } = useRepositories();
-
+export const RepositoryListContainer = ({ repositories }: {
+  repositories: {
+    edges: Array<{
+      node: Repository
+    }>
+  } | undefined
+}): JSX.Element => {
   const repositoryNodes = repositories && repositories.edges
     ? repositories.edges.map(edge => edge.node)
     : [];
@@ -33,6 +37,12 @@ const RepositoryList = (): JSX.Element => {
       keyExtractor={(item) => item.id}
     />
   );
+};
+
+const RepositoryList = (): JSX.Element => {
+  const { repositories } = useRepositories();
+
+  return <RepositoryListContainer repositories={repositories} />;
 };
 
 export default RepositoryList;

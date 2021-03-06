@@ -2,7 +2,8 @@
   "plugins": [
     "@typescript-eslint",
     "react",
-    "react-native-globals"
+    "react-native-globals",
+    "jest"
   ],
   "settings": {
     "react": {
@@ -12,7 +13,8 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:jest/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "env": {

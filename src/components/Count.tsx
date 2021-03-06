@@ -1,6 +1,7 @@
 import React from 'react';
 import Text from './Text';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ViewProps } from 'react-native';
+import numberFormat from '../utils/numberFormat';
 
 const styles = StyleSheet.create({
   container: {
@@ -8,17 +9,18 @@ const styles = StyleSheet.create({
   },
 });
 
-const numberShorthand = (num: number): string => {
-  return num >= 1000
-    ? `${(num / 1000).toFixed(1)}k`
-    : num.toFixed(0);
-};
 
-const Count = ({ count, name }: { count: number, name: string }): JSX.Element => {
+
+interface Props extends ViewProps {
+  count: number;
+  name: string;
+}
+
+const Count = ({ count, name, testID }: Props): JSX.Element => {
   return (
-    <View style={styles.container}>
+    <View testID={testID} style={styles.container}>
       <View>
-        <Text fontSize='subheading' fontWeight='bold'>{numberShorthand(count)}</Text>
+        <Text fontSize='subheading' fontWeight='bold'>{numberFormat(count)}</Text>
       </View>
       <View>
         <Text fontSize='subheading'>{name}</Text>
