@@ -1,4 +1,4 @@
 export {
-  default as RepositoryList,
+  default,
   RepositoryListContainer
 } from './RepositoryList';

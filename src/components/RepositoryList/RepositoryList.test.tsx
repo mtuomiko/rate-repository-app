@@ -6,7 +6,7 @@ import numberFormat from '../../utils/numberFormat';
 
 describe('RepositoryList', () => {
   describe('RepositoryListContainer', () => {
-    it('Renders repository information correctly', () => {
+    it('renders repository information correctly', () => {
       const repositories = {
         pageInfo: {
           totalCount: 8,
