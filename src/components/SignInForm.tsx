@@ -31,9 +31,9 @@ interface Props {
 const SignInForm = (props: Props): JSX.Element => {
   return (
     <View style={styles.container}>
-      <FormikTextInput name="username" placeholder="Username" />
-      <FormikTextInput name="password" placeholder="Password" secureTextEntry />
-      <TouchableOpacity activeOpacity={0.5} onPress={props.onSubmit}>
+      <FormikTextInput testID='signInUsername' name="username" placeholder="Username" />
+      <FormikTextInput testID='signInPassword' name="password" placeholder="Password" secureTextEntry />
+      <TouchableOpacity testID='signInButton' activeOpacity={0.5} onPress={props.onSubmit}>
         <Text style={styles.signInButton} fontWeight='bold' fontSize='subheading'>Sign in</Text>
       </TouchableOpacity>
     </View>

@@ -4,8 +4,8 @@ import { View } from 'react-native';
 import * as yup from 'yup';
 import { useHistory } from 'react-router-native';
 
-import SignInForm, { SignInFormValues } from './SignInForm';
-import useSignIn from '../hooks/useSignIn';
+import SignInForm, { SignInFormValues } from '../SignInForm';
+import useSignIn from '../../hooks/useSignIn';
 
 const initialValues: SignInFormValues = {
   username: '',
@@ -20,6 +20,22 @@ const validationSchema = yup.object().shape({
     .string()
     .required('Password is required'),
 });
+
+export const SignInContainer = ({ onSubmit }: {
+  onSubmit: (values: SignInFormValues) => Promise<void>
+}): JSX.Element => {
+  return (
+    <View>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        validationSchema={validationSchema}
+      >
+        {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
+      </Formik>
+    </View>
+  );
+};
 
 const SignIn = (): JSX.Element => {
   const [signIn] = useSignIn();
@@ -38,15 +54,7 @@ const SignIn = (): JSX.Element => {
   };
 
   return (
-    <View>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-        validationSchema={validationSchema}
-      >
-        {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
-      </Formik>
-    </View>
+    <SignInContainer onSubmit={onSubmit} />
   );
 };
 
