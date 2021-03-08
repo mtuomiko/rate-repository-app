@@ -23,11 +23,26 @@ export const AUTHORIZED_USER = gql`
   }
 `;
 
-export const GET_ONE_REPOSITORY = gql`
+export const GET_SINGLE_REPOSITORY = gql`
   ${REPOSITORY_FIELDS}
   query getRepository($id: ID!) {
     repository(id: $id) {
       ...RepositoryFields
+      reviews {
+        edges {
+          node {
+            id
+            text
+            rating
+            createdAt
+            user {
+              id
+              username
+            }
+          }
+        }
+      }
     }
   }
 `;
+

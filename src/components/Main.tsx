@@ -6,7 +6,7 @@ import AppBar from './AppBar';
 import RepositoryList from './RepositoryList';
 import theme from '../theme';
 import SignIn from './SignIn';
-import RepositoryPage from './RepositoryPage';
+import SingleRepository from './SingleRepository';
 
 const styles = StyleSheet.create({
   container: {
@@ -28,7 +28,7 @@ const Main = (): JSX.Element => {
           <SignIn />
         </Route>
         <Route path='/repository/:id'>
-          <RepositoryPage />
+          <SingleRepository />
         </Route>
         <Redirect to='/' />
       </Switch>

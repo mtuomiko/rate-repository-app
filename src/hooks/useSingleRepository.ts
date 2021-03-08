@@ -1,21 +1,21 @@
 import { useQuery } from '@apollo/client';
 
 import { Repository } from '../types';
-import { GET_ONE_REPOSITORY } from '../graphql/queries';
+import { GET_SINGLE_REPOSITORY } from '../graphql/queries';
 
-interface OneRepositoryResponse {
-  repository: Repository;
+interface SingleRepositoryResponse {
+  repository: Repository
 }
 
 interface QueryParams {
   id: string;
 }
 
-const useOneRepository = (id: string) => {
+const useSingleRepository = (id: string) => {
   const { data } = useQuery<
-    OneRepositoryResponse,
+    SingleRepositoryResponse,
     QueryParams
-  >(GET_ONE_REPOSITORY,
+  >(GET_SINGLE_REPOSITORY,
     {
       fetchPolicy: 'cache-and-network',
       variables: { id }
@@ -28,4 +28,4 @@ const useOneRepository = (id: string) => {
 
 };
 
-export default useOneRepository;
+export default useSingleRepository;

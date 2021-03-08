@@ -11,6 +11,11 @@ export interface RepositoryFull {
   ratingAverage: number;
   reviewCount: number;
   ownerAvatarUrl: string;
+  reviews?: {
+    edges: Array<{
+      node: Review
+    }>
+  }
 }
 
 export type Repository = Omit<RepositoryFull,
@@ -18,3 +23,14 @@ export type Repository = Omit<RepositoryFull,
   | 'ownerName'
   | 'createdAt'
 >;
+
+export interface Review {
+  id: string;
+  text: string;
+  rating: number;
+  createdAt: string;
+  user: {
+    id: string;
+    username: string;
+  }
+}
