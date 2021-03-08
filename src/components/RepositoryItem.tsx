@@ -1,5 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
+import * as Linking from 'expo-linking';
+
 import { Repository } from '../types';
 import Text from './Text';
 import theme from '../theme';
@@ -8,7 +10,6 @@ import Count from './Count';
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    paddingRight: 10,
   },
   upperContainer: {
     flexDirection: 'row',
@@ -18,6 +19,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
     alignItems: 'flex-start',
+    paddingRight: 5,
   },
   lowerContainer: {
     flexDirection: 'row',
@@ -41,10 +43,27 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.primary,
     borderRadius: 5,
     padding: 5,
+  },
+  link: {
+    backgroundColor: theme.colors.primary,
+    borderRadius: 5,
+    padding: 10,
+    margin: 10,
+    alignItems: 'center',
   }
 });
 
-const RepositoryItem = ({ item }: { item: Repository }): JSX.Element => {
+interface Props {
+  item: Repository;
+  showLink?: boolean;
+}
+
+const RepositoryItem = ({ item, showLink }: Props): JSX.Element => {
+  const openLink = () => {
+    const url = `https://github.com/${item.fullName}`;
+    Linking.openURL(url);
+  };
+
   return (
     <View testID='repositoryItem' style={styles.container}>
       <View style={styles.upperContainer}>
@@ -58,10 +77,28 @@ const RepositoryItem = ({ item }: { item: Repository }): JSX.Element => {
           />
         </View>
         <View style={styles.infoContainer}>
-          <Text testID='repositoryFullName' style={styles.infoText} fontWeight='bold' fontSize='subheading'>{item.fullName}</Text>
-          <Text testID='repositoryDescription' style={styles.infoText}>{item.description}</Text>
+          <Text
+            testID='repositoryFullName'
+            style={styles.infoText}
+            fontWeight='bold'
+            fontSize='subheading'
+          >
+            {item.fullName}
+          </Text>
+          <Text
+            testID='repositoryDescription'
+            style={styles.infoText}
+          >
+            {item.description}
+          </Text>
           <View>
-            <Text testID='repositoryLanguage' style={styles.language} color='offWhite'>{item.language}</Text>
+            <Text
+              testID='repositoryLanguage'
+              style={styles.language}
+              color='offWhite'
+            >
+              {item.language}
+            </Text>
           </View>
 
         </View>
@@ -72,6 +109,16 @@ const RepositoryItem = ({ item }: { item: Repository }): JSX.Element => {
         <Count testID='repositoryReviews' count={item.reviewCount} name='Reviews' />
         <Count testID='repositoryRating' count={item.ratingAverage} name='Rating' />
       </View>
+      {showLink &&
+        <View style={styles.link}>
+          <Text
+            testID='repositoryLink'
+            color='offWhite'
+            fontSize='subheading'
+            fontWeight='bold'
+            onPress={openLink}
+          >Open in GitHub</Text>
+        </View>}
     </View>
   );
 };

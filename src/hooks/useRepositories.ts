@@ -1,8 +1,9 @@
-import { Repository } from '../types';
 import { useQuery } from '@apollo/client';
+
+import { Repository } from '../types';
 import { GET_REPOSITORIES } from '../graphql/queries';
 
-interface RepositoryResponse {
+interface RepositoriesResponse {
   repositories: {
     edges: Array<{
       node: Repository
@@ -11,7 +12,7 @@ interface RepositoryResponse {
 }
 
 const useRepositories = () => {
-  const { data, loading, refetch } = useQuery<RepositoryResponse>(GET_REPOSITORIES, {
+  const { data, loading, refetch } = useQuery<RepositoriesResponse>(GET_REPOSITORIES, {
     fetchPolicy: 'cache-and-network',
   });
 
