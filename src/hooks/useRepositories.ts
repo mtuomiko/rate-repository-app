@@ -11,18 +11,16 @@ interface RepositoriesResponse {
   }
 }
 
-export interface OrderParams {
+export interface RepositoryQueryVariables {
   orderBy: 'CREATED_AT' | 'RATING_AVERAGE';
   orderDirection: 'ASC' | 'DESC';
+  searchKeyword: string;
 }
 
-const useRepositories = (order: OrderParams) => {
+const useRepositories = (variables: RepositoryQueryVariables) => {
   const { data, loading, refetch } = useQuery<RepositoriesResponse>(GET_REPOSITORIES, {
     fetchPolicy: 'cache-and-network',
-    variables: {
-      orderBy: order?.orderBy,
-      orderDirection: order?.orderDirection,
-    },
+    variables,
   });
 
   return {

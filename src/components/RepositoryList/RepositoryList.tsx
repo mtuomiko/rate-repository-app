@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { FlatList, View, StyleSheet, TouchableOpacity } from 'react-native';
-import { Picker } from '@react-native-community/picker';
+import { useDebounce } from 'use-debounce';
+import { RouteComponentProps } from 'react-router-native';
 
 import RepositoryItem from '../RepositoryItem';
 import { Repository } from '../../types';
-import useRepositories, { OrderParams } from '../../hooks/useRepositories';
-import { useHistory } from 'react-router-native';
+import useRepositories, { RepositoryQueryVariables } from '../../hooks/useRepositories';
+import OrderPicker, { OrderState } from '../OrderPicker';
+import SearchBar from '../SearchBar';
 
 const styles = StyleSheet.create({
   separator: {
@@ -13,24 +15,33 @@ const styles = StyleSheet.create({
   },
 });
 
-
 const ItemSeparator = () => <View style={styles.separator} />;
 
-export const RepositoryListContainer = ({ repositories, header }: {
+interface RepositoryListContainerProps extends RouteComponentProps {
   repositories: {
     edges: Array<{
       node: Repository
     }>
   } | undefined;
-  header?: JSX.Element;
-}): JSX.Element => {
-  const repositoryNodes = repositories && repositories.edges
-    ? repositories.edges.map(edge => edge.node)
-    : [];
+  order: OrderState;
+  setOrder: React.Dispatch<React.SetStateAction<OrderState>>
+  search: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>>
+}
 
-  const history = useHistory();
+export class RepositoryListContainer extends React.Component<RepositoryListContainerProps> {
+  renderHeader = () => {
+    const { order, setOrder, search, setSearch } = this.props;
+    return (
+      <>
+        <OrderPicker order={order} setOrder={setOrder} />
+        <SearchBar search={search} setSearch={setSearch} />
+      </>
+    );
+  };
 
-  const renderItem = ({ item }: { item: Repository }) => {
+  renderItem = ({ item }: { item: Repository }) => {
+    const { history } = this.props;
     const openRepository = () => {
       history.push(`/repository/${item.id}`);
     };
@@ -42,64 +53,47 @@ export const RepositoryListContainer = ({ repositories, header }: {
     );
   };
 
-  return (
-    <FlatList
-      data={repositoryNodes}
-      ItemSeparatorComponent={ItemSeparator}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id}
-      ListHeaderComponent={header}
-    />
-  );
-};
-
-type OrderState = 'latest' | 'highestRated' | 'lowestRated';
-
-const RepositoryList = (): JSX.Element => {
-  const [order, setOrder] = useState<OrderState>('latest');
-
-  const orderParam: OrderParams = {
-    orderBy: order === 'latest' ? 'CREATED_AT' : 'RATING_AVERAGE',
-    orderDirection: order === 'lowestRated' ? 'ASC' : 'DESC',
-  };
-
-  const { repositories } = useRepositories(orderParam);
-
-  const OrderPicker = (): JSX.Element => {
-    const options: Array<{ label: string, value: OrderState }> = [
-      {
-        label: 'Latest repositories',
-        value: 'latest',
-      },
-      {
-        label: 'Highest rated repositories',
-        value: 'highestRated',
-      },
-      {
-        label: 'Lowest rated repositories',
-        value: 'lowestRated',
-      },
-    ];
+  render() {
+    const { repositories } = this.props;
+    const repositoryNodes = repositories && repositories.edges
+      ? repositories.edges.map(edge => edge.node)
+      : [];
 
     return (
-      <Picker
-        selectedValue={order}
-        onValueChange={(itemValue) => {
-          // Expo SDK 38 compatible Picker probably has lacking TS support?
-          // Ended up with this hack
-          setOrder(itemValue as OrderState);
-        }}
-      >
-        {options.map((o, i) => {
-          return (
-            <Picker.Item key={i} label={o.label} value={o.value} />
-          );
-        })}
-      </Picker>
+      <FlatList
+        data={repositoryNodes}
+        ItemSeparatorComponent={ItemSeparator}
+        renderItem={this.renderItem}
+        keyExtractor={(item) => item.id}
+        ListHeaderComponent={this.renderHeader}
+      />
     );
+  }
+}
+
+const RepositoryList = (props: RouteComponentProps): JSX.Element => {
+  const [order, setOrder] = useState<OrderState>('latest');
+  const [search, setSearch] = useState('');
+  const [searchDebounce] = useDebounce(search, 500);
+
+  const variables: RepositoryQueryVariables = {
+    orderBy: order === 'latest' ? 'CREATED_AT' : 'RATING_AVERAGE',
+    orderDirection: order === 'lowestRated' ? 'ASC' : 'DESC',
+    searchKeyword: searchDebounce,
   };
 
-  return <RepositoryListContainer repositories={repositories} header={<OrderPicker />} />;
+  const { repositories } = useRepositories(variables);
+
+  return (
+    <RepositoryListContainer
+      repositories={repositories}
+      order={order}
+      setOrder={setOrder}
+      search={search}
+      setSearch={setSearch}
+      {...props}
+    />
+  );
 };
 
 export default RepositoryList;

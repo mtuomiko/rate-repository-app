@@ -23,9 +23,8 @@ const Main = (): JSX.Element => {
     <View style={styles.container}>
       <AppBar />
       <Switch>
-        <Route exact path='/'>
-          <RepositoryList />
-        </Route>
+        {/* give history access to class component*/}
+        <Route exact path='/' component={RepositoryList} />
         <Route path='/signIn'>
           <SignIn />
         </Route>
