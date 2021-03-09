@@ -22,7 +22,7 @@ interface AuthorizedUserResponse {
 }
 
 const useAuthorizedUser = ({ includeReviews } = { includeReviews: false }) => {
-  const { data } = useQuery<AuthorizedUserResponse>(GET_AUTHORIZED_USER, {
+  const { data, refetch } = useQuery<AuthorizedUserResponse>(GET_AUTHORIZED_USER, {
     fetchPolicy: 'cache-and-network',
     variables: {
       includeReviews,
@@ -31,6 +31,7 @@ const useAuthorizedUser = ({ includeReviews } = { includeReviews: false }) => {
 
   return {
     authorizedUser: data?.authorizedUser,
+    refetch,
   };
 };
 

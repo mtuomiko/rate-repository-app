@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import * as Linking from 'expo-linking';
 
 import { Repository } from '../types';
@@ -110,7 +110,7 @@ const RepositoryItem = ({ item, showLink }: Props): JSX.Element => {
         <Count testID='repositoryRating' count={item.ratingAverage} name='Rating' />
       </View>
       {showLink &&
-        <View style={styles.link}>
+        <TouchableOpacity activeOpacity={0.5} style={styles.link}>
           <Text
             testID='repositoryLink'
             color='offWhite'
@@ -118,7 +118,7 @@ const RepositoryItem = ({ item, showLink }: Props): JSX.Element => {
             fontWeight='bold'
             onPress={openLink}
           >Open in GitHub</Text>
-        </View>}
+        </TouchableOpacity>}
     </View>
   );
 };

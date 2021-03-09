@@ -16,14 +16,18 @@ const styles = StyleSheet.create({
 const ItemSeparator = () => <View style={styles.separator} />;
 
 const UserReviews = () => {
-  const { authorizedUser } = useAuthorizedUser({ includeReviews: true });
+  const { authorizedUser, refetch } = useAuthorizedUser({ includeReviews: true });
 
   const reviews = authorizedUser?.reviews?.edges.map(e => e.node);
+
+  const handleRefetch = async () => {
+    await refetch();
+  };
 
   return (
     <FlatList
       data={reviews}
-      renderItem={({ item }) => <ReviewItem review={item} />}
+      renderItem={({ item }) => <ReviewItem review={item} showActions handleRefetch={handleRefetch} />}
       keyExtractor={(item) => item.id}
       ItemSeparatorComponent={ItemSeparator}
     />

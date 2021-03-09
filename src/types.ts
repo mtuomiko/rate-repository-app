@@ -38,6 +38,10 @@ export interface Review {
     id: string;
     username: string;
   }
+  repository?: {
+    id: string;
+    fullName: string;
+  }
 }
 
 export interface NewReview {
