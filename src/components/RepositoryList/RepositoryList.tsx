@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FlatList, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Picker } from '@react-native-community/picker';
 
 import RepositoryItem from '../RepositoryItem';
 import { Repository } from '../../types';
-import useRepositories from '../../hooks/useRepositories';
+import useRepositories, { OrderParams } from '../../hooks/useRepositories';
 import { useHistory } from 'react-router-native';
 
 const styles = StyleSheet.create({
@@ -15,12 +16,13 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-export const RepositoryListContainer = ({ repositories }: {
+export const RepositoryListContainer = ({ repositories, header }: {
   repositories: {
     edges: Array<{
       node: Repository
     }>
-  } | undefined
+  } | undefined;
+  header?: JSX.Element;
 }): JSX.Element => {
   const repositoryNodes = repositories && repositories.edges
     ? repositories.edges.map(edge => edge.node)
@@ -46,14 +48,59 @@ export const RepositoryListContainer = ({ repositories }: {
       ItemSeparatorComponent={ItemSeparator}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
+      ListHeaderComponent={header}
     />
   );
 };
 
-const RepositoryList = (): JSX.Element => {
-  const { repositories } = useRepositories();
+type OrderState = 'latest' | 'highestRated' | 'lowestRated';
 
-  return <RepositoryListContainer repositories={repositories} />;
+const RepositoryList = (): JSX.Element => {
+  const [order, setOrder] = useState<OrderState>('latest');
+
+  const orderParam: OrderParams = {
+    orderBy: order === 'latest' ? 'CREATED_AT' : 'RATING_AVERAGE',
+    orderDirection: order === 'lowestRated' ? 'ASC' : 'DESC',
+  };
+
+  const { repositories } = useRepositories(orderParam);
+
+  const OrderPicker = (): JSX.Element => {
+    const options: Array<{ label: string, value: OrderState }> = [
+      {
+        label: 'Latest repositories',
+        value: 'latest',
+      },
+      {
+        label: 'Highest rated repositories',
+        value: 'highestRated',
+      },
+      {
+        label: 'Lowest rated repositories',
+        value: 'lowestRated',
+      },
+    ];
+
+    return (
+      <Picker
+        selectedValue={order}
+        onValueChange={(itemValue) => {
+          // Expo SDK 38 compatible Picker probably has lacking TS support?
+          // Ended up with this hack
+          const itemValueAsOrderState = itemValue as OrderState;
+          setOrder(itemValueAsOrderState);
+        }}
+      >
+        {options.map((o, i) => {
+          return (
+            <Picker.Item key={i} label={o.label} value={o.value} />
+          );
+        })}
+      </Picker>
+    );
+  };
+
+  return <RepositoryListContainer repositories={repositories} header={<OrderPicker />} />;
 };
 
 export default RepositoryList;
