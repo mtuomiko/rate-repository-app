@@ -5,7 +5,7 @@ import { RouteComponentProps } from 'react-router-native';
 
 import RepositoryItem from '../RepositoryItem';
 import { Repository } from '../../types';
-import useRepositories, { RepositoryQueryVariables } from '../../hooks/useRepositories';
+import useRepositories, { RepositoriesQueryVariables } from '../../hooks/useRepositories';
 import OrderPicker, { OrderState } from '../OrderPicker';
 import SearchBar from '../SearchBar';
 
@@ -24,9 +24,10 @@ interface RepositoryListContainerProps extends RouteComponentProps {
     }>
   } | undefined;
   order: OrderState;
-  setOrder: React.Dispatch<React.SetStateAction<OrderState>>
+  setOrder: React.Dispatch<React.SetStateAction<OrderState>>;
   search: string;
-  setSearch: React.Dispatch<React.SetStateAction<string>>
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
+  onEndReach: () => void;
 }
 
 export class RepositoryListContainer extends React.Component<RepositoryListContainerProps> {
@@ -54,7 +55,7 @@ export class RepositoryListContainer extends React.Component<RepositoryListConta
   };
 
   render() {
-    const { repositories } = this.props;
+    const { repositories, onEndReach } = this.props;
     const repositoryNodes = repositories && repositories.edges
       ? repositories.edges.map(edge => edge.node)
       : [];
@@ -66,6 +67,7 @@ export class RepositoryListContainer extends React.Component<RepositoryListConta
         renderItem={this.renderItem}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={this.renderHeader}
+        onEndReached={onEndReach}
       />
     );
   }
@@ -76,13 +78,18 @@ const RepositoryList = (props: RouteComponentProps): JSX.Element => {
   const [search, setSearch] = useState('');
   const [searchDebounce] = useDebounce(search, 500);
 
-  const variables: RepositoryQueryVariables = {
+  const variables: RepositoriesQueryVariables = {
     orderBy: order === 'latest' ? 'CREATED_AT' : 'RATING_AVERAGE',
     orderDirection: order === 'lowestRated' ? 'ASC' : 'DESC',
     searchKeyword: searchDebounce,
+    first: 8,
   };
 
-  const { repositories } = useRepositories(variables);
+  const { repositories, fetchMore } = useRepositories(variables);
+
+  const onEndReach = () => {
+    fetchMore();
+  };
 
   return (
     <RepositoryListContainer
@@ -91,6 +98,7 @@ const RepositoryList = (props: RouteComponentProps): JSX.Element => {
       setOrder={setOrder}
       search={search}
       setSearch={setSearch}
+      onEndReach={onEndReach}
       {...props}
     />
   );

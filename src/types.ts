@@ -14,7 +14,12 @@ export interface RepositoryFull {
   reviews?: {
     edges: Array<{
       node: Review
-    }>
+    }>;
+    pageInfo: {
+      endCursor: string;
+      startCursor: string;
+      hasNextPage: string;
+    }
   }
 }
 

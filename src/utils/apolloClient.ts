@@ -3,6 +3,7 @@ import { setContext } from '@apollo/client/link/context';
 import Constants from 'expo-constants';
 import { Platform } from 'react-native';
 import AuthStorage from './authStorage';
+import { relayStylePagination } from '@apollo/client/utilities';
 
 const webHost = Constants.manifest.extra.webHost;
 const nativeHost = Constants.manifest.extra.nativeHost;
@@ -13,6 +14,21 @@ const nativeHost = Constants.manifest.extra.nativeHost;
 const apiHost = Platform.select({
   web: webHost,
   default: nativeHost,
+});
+
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        repositories: relayStylePagination(),
+      },
+    },
+    Repository: {
+      fields: {
+        reviews: relayStylePagination(),
+      },
+    },
+  },
 });
 
 const createApolloClient = (authStorage: AuthStorage) => {
@@ -31,7 +47,7 @@ const createApolloClient = (authStorage: AuthStorage) => {
 
   return new ApolloClient({
     link: authLink.concat(httpLink),
-    cache: new InMemoryCache(),
+    cache,
   });
 };
 

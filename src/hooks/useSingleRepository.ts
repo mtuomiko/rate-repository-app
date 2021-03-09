@@ -4,26 +4,44 @@ import { Repository } from '../types';
 import { GET_SINGLE_REPOSITORY } from '../graphql/queries';
 
 interface SingleRepositoryResponse {
-  repository: Repository
+  repository: Repository,
 }
 
-interface QueryParams {
+interface SingleRepositoryQueryVariables {
   id: string;
+  first: number;
 }
 
-const useSingleRepository = (id: string) => {
-  const { data } = useQuery<
+const useSingleRepository = (variables: SingleRepositoryQueryVariables) => {
+  const { data, loading, fetchMore } = useQuery<
     SingleRepositoryResponse,
-    QueryParams
+    SingleRepositoryQueryVariables
   >(GET_SINGLE_REPOSITORY,
     {
       fetchPolicy: 'cache-and-network',
-      variables: { id }
+      variables,
     }
   );
 
+  const handleFetchMore = () => {
+    const canFetchMore = !loading && data?.repository.reviews?.pageInfo.hasNextPage;
+
+    if (!canFetchMore) {
+      return;
+    }
+
+    fetchMore({
+      variables: {
+        after: data?.repository.reviews?.pageInfo.endCursor,
+        ...variables,
+      },
+    });
+  };
+
   return {
     repository: data?.repository,
+    loading,
+    fetchMore: handleFetchMore,
   };
 
 };

@@ -34,8 +34,16 @@ const RepositoryInfo = ({ repository }: {
 
 const SingleRepository = (): JSX.Element => {
   const { id } = useParams<{ id: string }>();
-  const { repository } = useSingleRepository(id);
+  const variables = {
+    id,
+    first: 10,
+  };
+  const { repository, fetchMore } = useSingleRepository(variables);
   const reviews = repository?.reviews?.edges.map(e => e.node);
+
+  const onEndReach = () => {
+    fetchMore();
+  };
 
   return (
     <FlatList
@@ -44,7 +52,8 @@ const SingleRepository = (): JSX.Element => {
       keyExtractor={({ id }) => id}
       ListHeaderComponent={() => <RepositoryInfo repository={repository} />}
       ItemSeparatorComponent={ItemSeparator}
-
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
     />
   );
 };
