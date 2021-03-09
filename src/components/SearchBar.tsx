@@ -1,5 +1,12 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import { Searchbar as NativeSearchbar } from 'react-native-paper';
+
+const styles = StyleSheet.create({
+  search: {
+    margin: 15,
+  },
+});
 
 const SearchBar = ({ search, setSearch }: {
   search: string;
@@ -13,6 +20,7 @@ const SearchBar = ({ search, setSearch }: {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     <NativeSearchbar
+      style={styles.search}
       placeholder='Search'
       onChangeText={handleSearch}
       value={search}

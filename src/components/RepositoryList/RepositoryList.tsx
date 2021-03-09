@@ -34,8 +34,8 @@ export class RepositoryListContainer extends React.Component<RepositoryListConta
     const { order, setOrder, search, setSearch } = this.props;
     return (
       <>
-        <OrderPicker order={order} setOrder={setOrder} />
         <SearchBar search={search} setSearch={setSearch} />
+        <OrderPicker order={order} setOrder={setOrder} />
       </>
     );
   };
