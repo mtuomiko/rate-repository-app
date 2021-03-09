@@ -34,3 +34,10 @@ export interface Review {
     username: string;
   }
 }
+
+export interface NewReview {
+  repositoryName: string,
+  ownerName: string,
+  rating: string,
+  text?: string,
+}

@@ -32,6 +32,9 @@ const AppBar = (): JSX.Element => {
     <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab to='/' name='Repositories' />
+        {authorizedUser &&
+          <AppBarTab to='/createReview' name='Create a review' />
+        }
         {authorizedUser
           ? <AppBarTab name='Sign out' action={signOut} />
           : <AppBarTab to='/signin' name='Sign in' />
