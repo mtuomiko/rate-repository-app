@@ -8,6 +8,7 @@ import theme from '../theme';
 import SignIn from './SignIn';
 import SingleRepository from './SingleRepository';
 import CreateReview from './CreateReview';
+import SignUp from './SignUp';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,11 +26,14 @@ const Main = (): JSX.Element => {
         <Route exact path='/'>
           <RepositoryList />
         </Route>
-        <Route path='/signin'>
+        <Route path='/signIn'>
           <SignIn />
         </Route>
         <Route path='/createReview'>
           <CreateReview />
+        </Route>
+        <Route path='/signUp'>
+          <SignUp />
         </Route>
         <Route path='/repository/:id'>
           <SingleRepository />

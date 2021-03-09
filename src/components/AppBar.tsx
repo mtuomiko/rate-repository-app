@@ -37,7 +37,10 @@ const AppBar = (): JSX.Element => {
         }
         {authorizedUser
           ? <AppBarTab name='Sign out' action={signOut} />
-          : <AppBarTab to='/signin' name='Sign in' />
+          : <>
+            <AppBarTab to='/signIn' name='Sign in' />
+            <AppBarTab to='signUp' name='Sign up' />
+          </>
         }
       </ScrollView>
     </View>

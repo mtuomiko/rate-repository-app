@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import { USER_FIELDS } from './fragments';
 
 export const SIGN_IN = gql`
   mutation signIn($username: String!, $password: String!) {
@@ -25,6 +26,18 @@ export const CREATE_REVIEW = gql`
       text: $text
     }) {
       repositoryId
+    }
+  }
+`;
+
+export const SIGN_UP = gql`
+  ${USER_FIELDS}
+  mutation signUp($username: String!, $password: String!) {
+    createUser(user: {
+      username: $username,
+      password: $password
+    }) {
+      ...UserFields
     }
   }
 `;
