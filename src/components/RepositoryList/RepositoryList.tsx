@@ -87,8 +87,7 @@ const RepositoryList = (): JSX.Element => {
         onValueChange={(itemValue) => {
           // Expo SDK 38 compatible Picker probably has lacking TS support?
           // Ended up with this hack
-          const itemValueAsOrderState = itemValue as OrderState;
-          setOrder(itemValueAsOrderState);
+          setOrder(itemValue as OrderState);
         }}
       >
         {options.map((o, i) => {
