@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Pressable, View } from 'react-native';
 import { Link } from 'react-router-native';
 
 import Text from './Text';
@@ -16,13 +16,13 @@ interface Props {
   action?: () => void;
 }
 
-const AppBarTab = ({ name, to, action }: Props): JSX.Element => {
+const AppBarTab = ({ name, to, action }: Props) => {
   const text = <Text fontSize='subheading' color='offWhite' fontWeight='bold'>{name}</Text>;
   return (
     <View style={styles.container}>
       {to
-        ? <Link to={to} component={TouchableOpacity} activeOpacity={0.5}>{text}</Link>
-        : <TouchableOpacity onPress={action} activeOpacity={0.5}>{text}</TouchableOpacity>
+        ? <Link to={to} component={Pressable}>{text}</Link>
+        : <Pressable onPress={action}>{text}</Pressable>
       }
     </View>
   );

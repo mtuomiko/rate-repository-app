@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Pressable, View } from 'react-native';
 
 import FormikTextInput from './FormikTextInput';
 import Text from './Text';
@@ -24,7 +24,7 @@ interface Props {
   onSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void
 }
 
-const CreateReviewForm = (props: Props): JSX.Element => {
+const CreateReviewForm = (props: Props) => {
   return (
     <View style={styles.container}>
       <FormikTextInput
@@ -49,9 +49,9 @@ const CreateReviewForm = (props: Props): JSX.Element => {
         placeholder='Review'
         multiline
       />
-      <TouchableOpacity testID='createReviewButton' activeOpacity={0.5} onPress={props.onSubmit}>
+      <Pressable testID='createReviewButton' onPress={props.onSubmit}>
         <Text style={styles.button} fontWeight='bold' fontSize='subheading'>Create a review</Text>
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 };

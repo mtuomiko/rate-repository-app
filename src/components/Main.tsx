@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Main = (): JSX.Element => {
+const Main = () => {
   return (
     <View style={styles.container}>
       <AppBar />

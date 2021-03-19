@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Pressable, View } from 'react-native';
 
 import FormikTextInput from './FormikTextInput';
 import Text from './Text';
@@ -28,14 +28,14 @@ interface Props {
   onSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void
 }
 
-const SignInForm = (props: Props): JSX.Element => {
+const SignInForm = (props: Props) => {
   return (
     <View style={styles.container}>
       <FormikTextInput testID='signInUsername' name="username" placeholder="Username" />
       <FormikTextInput testID='signInPassword' name="password" placeholder="Password" secureTextEntry />
-      <TouchableOpacity testID='signInButton' activeOpacity={0.5} onPress={props.onSubmit}>
+      <Pressable testID='signInButton' onPress={props.onSubmit}>
         <Text style={styles.signInButton} fontWeight='bold' fontSize='subheading'>Sign in</Text>
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 };

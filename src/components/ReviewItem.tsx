@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View, Alert } from 'react-native';
+import { StyleSheet, Pressable, View, Alert } from 'react-native';
 import { format, parseISO } from 'date-fns';
 
 import { Review } from '../types';
@@ -63,8 +63,8 @@ const styles = StyleSheet.create({
 const ReviewItem = ({ review, showActions = false, handleRefetch }: {
   review: Review;
   showActions?: boolean;
-  handleRefetch: () => Promise<void>;
-}): JSX.Element => {
+  handleRefetch?: () => Promise<void>;
+}) => {
   const reviewDate = format(parseISO(review.createdAt), 'dd.MM.yyyy');
   const history = useHistory();
   const [deleteReview] = useDeleteReview();
@@ -83,7 +83,7 @@ const ReviewItem = ({ review, showActions = false, handleRefetch }: {
           text: 'OK',
           onPress: async () => {
             await deleteReview({ id: review.id });
-            await handleRefetch();
+            handleRefetch && await handleRefetch();
           }
         }
       ],
@@ -112,24 +112,22 @@ const ReviewItem = ({ review, showActions = false, handleRefetch }: {
       </View>
       {showActions &&
         <View style={styles.actionsContainer}>
-          <TouchableOpacity
+          <Pressable
             style={styles.button}
-            activeOpacity={0.5}
             onPress={handleViewRepository}
           >
             <Text color='offWhite' fontWeight='bold'>
               View repository
             </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+          </Pressable>
+          <Pressable
             style={[styles.button, styles.deleteColor]}
-            activeOpacity={0.5}
             onPress={handleDeleteRepository}
           >
             <Text color='offWhite' fontWeight='bold'>
               Delete review
             </Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       }
     </View>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FlatList, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { FlatList, View, StyleSheet, Pressable } from 'react-native';
 import { useDebounce } from 'use-debounce';
 import { RouteComponentProps } from 'react-router-native';
 
@@ -48,9 +48,9 @@ export class RepositoryListContainer extends React.Component<RepositoryListConta
     };
 
     return (
-      <TouchableOpacity activeOpacity={0.5} onPress={openRepository}>
+      <Pressable onPress={openRepository}>
         <RepositoryItem item={item} />
-      </TouchableOpacity>
+      </Pressable>
     );
   };
 
@@ -73,7 +73,7 @@ export class RepositoryListContainer extends React.Component<RepositoryListConta
   }
 }
 
-const RepositoryList = (props: RouteComponentProps): JSX.Element => {
+const RepositoryList = (props: RouteComponentProps) => {
   const [order, setOrder] = useState<OrderState>('latest');
   const [search, setSearch] = useState('');
   const [searchDebounce] = useDebounce(search, 500);

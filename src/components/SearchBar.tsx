@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
 const SearchBar = ({ search, setSearch }: {
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>
-}): JSX.Element => {
+}) => {
   const handleSearch = (query: string) => setSearch(query);
 
   return (

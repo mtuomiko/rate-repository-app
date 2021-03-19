@@ -23,7 +23,7 @@ const validationSchema = yup.object().shape({
 
 export const SignInContainer = ({ onSubmit }: {
   onSubmit: (values: SignInFormValues) => Promise<void>
-}): JSX.Element => {
+}) => {
   return (
     <View>
       <Formik
@@ -37,7 +37,7 @@ export const SignInContainer = ({ onSubmit }: {
   );
 };
 
-const SignIn = (): JSX.Element => {
+const SignIn = () => {
   const [signIn] = useSignIn();
   const history = useHistory();
 

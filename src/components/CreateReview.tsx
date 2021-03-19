@@ -34,7 +34,7 @@ const validationSchema = yup.object().shape({
 
 export const CreateReviewContainer = ({ onSubmit }: {
   onSubmit: (values: NewReview) => Promise<void>
-}): JSX.Element => {
+}) => {
   return (
     <View>
       <Formik

@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const AppBar = (): JSX.Element => {
+const AppBar = () => {
   const { authorizedUser } = useAuthorizedUser();
   const authStorage = useAuthStorage();
   const client = useApolloClient();

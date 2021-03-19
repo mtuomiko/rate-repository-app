@@ -20,7 +20,7 @@ interface Props extends TextInputProps {
   error: string | false | undefined,
 }
 
-const TextInput = (props: Props): JSX.Element => {
+const TextInput = (props: Props) => {
   const textInputStyles = [styles.baseInputStyle, props.style, props.error ? styles.error : undefined];
 
   return <NativeTextInput style={textInputStyles} {...props} />;

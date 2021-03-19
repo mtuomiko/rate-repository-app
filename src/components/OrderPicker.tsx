@@ -6,7 +6,7 @@ export type OrderState = 'latest' | 'highestRated' | 'lowestRated';
 const OrderPicker = ({ order, setOrder }: {
   order: OrderState;
   setOrder: React.Dispatch<React.SetStateAction<OrderState>>
-}): JSX.Element => {
+}) => {
   const options: Array<{ label: string, value: OrderState }> = [
     { label: 'Latest repositories', value: 'latest' },
     { label: 'Highest rated repositories', value: 'highestRated' },
@@ -17,9 +17,7 @@ const OrderPicker = ({ order, setOrder }: {
     <Picker
       selectedValue={order}
       onValueChange={(itemValue) => {
-        // Expo SDK 38 compatible Picker probably has lacking TS support?
-        // Ended up with this hack
-        // TODO 19.3.2021 check this for Expo 40?
+        // This is still hacky but didn't find a clean solution.
         setOrder(itemValue as OrderState);
       }}
     >

@@ -16,7 +16,7 @@ interface Props extends ViewProps {
   name: string;
 }
 
-const Count = ({ count, name, testID }: Props): JSX.Element => {
+const Count = ({ count, name, testID }: Props) => {
   return (
     <View testID={testID} style={styles.container}>
       <View>

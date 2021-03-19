@@ -20,7 +20,7 @@ const ItemSeparator = () => <View style={styles.separator} />;
 
 const RepositoryInfo = ({ repository }: {
   repository: Repository | undefined
-}): JSX.Element | null => {
+}) => {
   if (repository) {
     return (
       <View>
@@ -32,7 +32,7 @@ const RepositoryInfo = ({ repository }: {
   return null;
 };
 
-const SingleRepository = (): JSX.Element => {
+const SingleRepository = () => {
   const { id } = useParams<{ id: string }>();
   const variables = {
     id,

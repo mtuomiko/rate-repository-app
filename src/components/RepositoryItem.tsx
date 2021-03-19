@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Pressable, View } from 'react-native';
 import * as Linking from 'expo-linking';
 
 import { Repository } from '../types';
@@ -58,7 +58,7 @@ interface Props {
   showLink?: boolean;
 }
 
-const RepositoryItem = ({ item, showLink }: Props): JSX.Element => {
+const RepositoryItem = ({ item, showLink }: Props) => {
   const openLink = () => {
     const url = `https://github.com/${item.fullName}`;
     Linking.openURL(url);
@@ -110,7 +110,7 @@ const RepositoryItem = ({ item, showLink }: Props): JSX.Element => {
         <Count testID='repositoryRating' count={item.ratingAverage} name='Rating' />
       </View>
       {showLink &&
-        <TouchableOpacity activeOpacity={0.5} style={styles.link}>
+        <Pressable style={styles.link}>
           <Text
             testID='repositoryLink'
             color='offWhite'
@@ -118,7 +118,7 @@ const RepositoryItem = ({ item, showLink }: Props): JSX.Element => {
             fontWeight='bold'
             onPress={openLink}
           >Open in GitHub</Text>
-        </TouchableOpacity>}
+        </Pressable>}
     </View>
   );
 };
