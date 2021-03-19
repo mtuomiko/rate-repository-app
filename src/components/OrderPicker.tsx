@@ -1,5 +1,5 @@
 import React from 'react';
-import { Picker } from '@react-native-community/picker';
+import { Picker } from '@react-native-picker/picker';
 
 export type OrderState = 'latest' | 'highestRated' | 'lowestRated';
 
@@ -19,6 +19,7 @@ const OrderPicker = ({ order, setOrder }: {
       onValueChange={(itemValue) => {
         // Expo SDK 38 compatible Picker probably has lacking TS support?
         // Ended up with this hack
+        // TODO 19.3.2021 check this for Expo 40?
         setOrder(itemValue as OrderState);
       }}
     >
