@@ -52,6 +52,7 @@ describe('RepositoryList', () => {
 
       const testRepositories = repositories.edges.map(e => e.node);
 
+      // @ts-ignore: The component has also other props which are not relative for this test
       const { getAllByTestId } = render(<RepositoryListContainer repositories={repositories} />);
 
       const repositoryItems = getAllByTestId('repositoryItem');
